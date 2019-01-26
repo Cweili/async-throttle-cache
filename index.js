@@ -11,14 +11,15 @@ export default function asyncThrottleCache(fn, wait = 0, {
     if (cache[cacheKey]) {
       const cached = cache[cacheKey];
       const {
-        e,
-        r,
+        e, // error
+        r, // result
+        f, // finished
       } = cached;
-      if (r !== undefined) {
-        return deserialize(r);
-      }
       if (e !== undefined) {
         return Promise.reject(e);
+      }
+      if (f) {
+        return deserialize(r);
       }
       return new Promise((resolve, reject) => {
         cached.s.push(resolve);
@@ -30,7 +31,7 @@ export default function asyncThrottleCache(fn, wait = 0, {
       j: [],
       t: setTimeout(() => {
         const cached = cache[cacheKey];
-        if (cached.r !== undefined || cached.e !== undefined) {
+        if (cached.f) {
           delete cache[cacheKey];
         } else {
           cached.t = 0;
@@ -44,6 +45,7 @@ export default function asyncThrottleCache(fn, wait = 0, {
           j,
           s,
         } = cached;
+        cached.f = true;
         if (err) {
           cached.e = err;
           j.map(f => f(err));
