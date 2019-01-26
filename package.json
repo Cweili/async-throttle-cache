@@ -1,6 +1,6 @@
 {
   "name": "async-throttle-cache",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Throttle asynchronous functions and return cached result for each function calls. It can be used for rate limit.",
   "keywords": [
     "throttle",
@@ -34,18 +34,18 @@
     "test": "jest test --collectCoverage --coverageDirectory ./coverage/"
   },
   "devDependencies": {
-    "@babel/core": "^7.1.2",
-    "@babel/preset-env": "^7.1.0",
+    "@babel/core": "^7.2.2",
+    "@babel/preset-env": "^7.3.1",
     "babel-eslint": "^10.0.1",
     "eslint": "^5.7.0",
-    "eslint-config-airbnb-base": "^13.0.0",
+    "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-node": "^0.3.2",
-    "eslint-plugin-import": "^2.13.0",
-    "eslint-plugin-jest": "^22.0.0",
+    "eslint-plugin-import": "^2.15.0",
+    "eslint-plugin-jest": "^22.1.3",
     "fast-async": "^7.0.6",
     "jest": "^24.0.0",
-    "rollup": "^0.68.0",
-    "rollup-plugin-babel": "^4.0.3",
+    "rollup": "^1.1.2",
+    "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-node-resolve": "^4.0.0"
   }
 }
