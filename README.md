@@ -55,7 +55,7 @@ For example, clone result for each time throttled function execution in 1000 mil
 const throttleFn = asyncThrottleCache(fn, 1000, {
   serialize: async result => JSON.stringify(result),
   deserialize: async result => JSON.parse(result),
-}]]);
+});
 ```
 
 ## Examples
