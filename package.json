@@ -31,7 +31,7 @@
   "scripts": {
     "prebuild": "eslint --fix *.js",
     "build": "rollup -c",
-    "test": "jest test --collectCoverage --coverageDirectory ./coverage/"
+    "test": "jest test --collectCoverage --coverageReporters json"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",
