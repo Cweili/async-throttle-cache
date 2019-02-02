@@ -1,4 +1,4 @@
-const asyncThrottleCache = require('../dist/async-throttle-cache.cjs');
+const asyncThrottleCache = require('..');
 
 function wait(time = 5) {
   return new Promise(resolve => setTimeout(resolve, time));
