@@ -8,7 +8,7 @@
 
 [![github][github-issues]][github]
 [![travis][travis-build]][travis]
-[![codecov][codecov-svg]][codecov]
+[![coverage][coveralls-svg]][coveralls-svg]
 
 
 Throttle asynchronous functions and return cached result for each function calls. It can be used for rate limit.
@@ -119,5 +119,5 @@ async () => {
 [travis]: https://travis-ci.org/Cweili/async-throttle-cache
 [travis-build]: https://travis-ci.org/Cweili/async-throttle-cache.svg?branch=master
 
-[codecov]: https://codecov.io/gh/Cweili/async-throttle-cache
-[codecov-svg]: https://img.shields.io/codecov/c/github/Cweili/async-throttle-cache.svg
+[coveralls]: https://coveralls.io/github/Cweili/async-throttle-cache?branch=master
+[coveralls-svg]: https://coveralls.io/repos/github/Cweili/async-throttle-cache/badge.svg?branch=master
