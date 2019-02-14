@@ -1,14 +1,14 @@
 # async-throttle-cache
 
-[![npm][npm-version]][npm]
-[![npm][npm-size]][npm]
-[![npm][npm-downloads]][npm]
-[![npm][npm-license]][npm]
+[![npm][badge-version]][npm]
+[![bundle size][badge-size]][bundlephobia]
+[![npm downloads][badge-downloads]][npm]
+[![license][badge-license]][license]
 
 
-[![github][github-issues]][github]
-[![travis][travis-build]][travis]
-[![coverage][coveralls-svg]][coveralls-svg]
+[![github][badge-issues]][github]
+[![travis][badge-build]][travis]
+[![coverage][badge-coverage]][coveralls]
 
 
 Throttle asynchronous functions and return cached result for each function calls. It can be used for rate limit.
@@ -108,16 +108,20 @@ async () => {
 ```
 
 [npm]: https://www.npmjs.com/package/async-throttle-cache
-[npm-version]: https://img.shields.io/npm/v/async-throttle-cache.svg
-[npm-size]: https://img.shields.io/bundlephobia/minzip/async-throttle-cache.svg
-[npm-downloads]: https://img.shields.io/npm/dt/async-throttle-cache.svg
-[npm-license]: https://img.shields.io/npm/l/async-throttle-cache.svg
+[badge-version]: https://img.shields.io/npm/v/async-throttle-cache.svg
+[badge-downloads]: https://img.shields.io/npm/dt/async-throttle-cache.svg
+
+[bundlephobia]: https://bundlephobia.com/result?p=async-throttle-cache
+[badge-size]: https://img.shields.io/bundlephobia/minzip/async-throttle-cache.svg
+
+[license]: https://github.com/Cweili/async-throttle-cache/blob/master/LICENSE
+[badge-license]: https://img.shields.io/npm/l/async-throttle-cache.svg
 
 [github]: https://github.com/Cweili/async-throttle-cache
-[github-issues]: https://img.shields.io/github/issues/Cweili/async-throttle-cache.svg
+[badge-issues]: https://img.shields.io/github/issues/Cweili/async-throttle-cache.svg
 
 [travis]: https://travis-ci.org/Cweili/async-throttle-cache
-[travis-build]: https://travis-ci.org/Cweili/async-throttle-cache.svg?branch=master
+[badge-build]: https://travis-ci.org/Cweili/async-throttle-cache.svg?branch=master
 
 [coveralls]: https://coveralls.io/github/Cweili/async-throttle-cache?branch=master
-[coveralls-svg]: https://coveralls.io/repos/github/Cweili/async-throttle-cache/badge.svg?branch=master
+[badge-coverage]: https://coveralls.io/repos/github/Cweili/async-throttle-cache/badge.svg?branch=master
