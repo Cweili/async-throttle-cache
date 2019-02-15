@@ -107,21 +107,21 @@ async () => {
 }();
 ```
 
-[npm]: https://www.npmjs.com/package/async-throttle-cache
 [badge-version]: https://img.shields.io/npm/v/async-throttle-cache.svg
 [badge-downloads]: https://img.shields.io/npm/dt/async-throttle-cache.svg
+[npm]: https://www.npmjs.com/package/async-throttle-cache
 
-[bundlephobia]: https://bundlephobia.com/result?p=async-throttle-cache
 [badge-size]: https://img.shields.io/bundlephobia/minzip/async-throttle-cache.svg
+[bundlephobia]: https://bundlephobia.com/result?p=async-throttle-cache
 
-[license]: https://github.com/Cweili/async-throttle-cache/blob/master/LICENSE
 [badge-license]: https://img.shields.io/npm/l/async-throttle-cache.svg
+[license]: https://github.com/Cweili/async-throttle-cache/blob/master/LICENSE
 
-[github]: https://github.com/Cweili/async-throttle-cache
 [badge-issues]: https://img.shields.io/github/issues/Cweili/async-throttle-cache.svg
+[github]: https://github.com/Cweili/async-throttle-cache
 
-[travis]: https://travis-ci.org/Cweili/async-throttle-cache
 [badge-build]: https://travis-ci.org/Cweili/async-throttle-cache.svg?branch=master
+[travis]: https://travis-ci.org/Cweili/async-throttle-cache
 
-[coveralls]: https://coveralls.io/github/Cweili/async-throttle-cache?branch=master
 [badge-coverage]: https://coveralls.io/repos/github/Cweili/async-throttle-cache/badge.svg?branch=master
+[coveralls]: https://coveralls.io/github/Cweili/async-throttle-cache?branch=master
