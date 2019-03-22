@@ -9,7 +9,7 @@ const plugins = [
 
 export default [
   {
-    input: 'index.js',
+    input: 'async-throttle-cache.js',
     output: [
       {
         file: pkg.main,

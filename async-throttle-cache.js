@@ -31,16 +31,18 @@ export default function asyncThrottleCache(fn, wait = 0, {
       j: [],
       t: setTimeout(() => {
         const cached = cache[cacheKey];
-        if (cached.f) {
-          delete cache[cacheKey];
-        } else {
-          cached.t = 0;
+        if (cached) {
+          if (cached.f) {
+            delete cache[cacheKey];
+          } else {
+            cached.t = 0;
+          }
         }
       }, wait),
     };
     const onFinish = (err, result) => {
-      if (cache[cacheKey]) {
-        const cached = cache[cacheKey];
+      const cached = cache[cacheKey];
+      if (cached) {
         const {
           j,
           s,
