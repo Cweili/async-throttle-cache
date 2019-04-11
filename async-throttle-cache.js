@@ -6,7 +6,7 @@ export default function asyncThrottleCache(fn, wait = 0, {
   deserialize = returnSelf,
 } = {}) {
   const cache = {};
-  return (...args) => {
+  return function (...args) { // eslint-disable-line func-names
     const cacheKey = key(...args);
     if (cache[cacheKey]) {
       const cached = cache[cacheKey];
