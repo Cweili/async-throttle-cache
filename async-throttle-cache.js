@@ -64,7 +64,7 @@ export default function asyncThrottleCache(fn, wait = 0, {
       }
       return result;
     };
-    return fn(...args)
+    return fn.apply(this, args)
       .then(result => onFinish(undefined, result), (err) => {
         onFinish(err);
         return Promise.reject(err);
