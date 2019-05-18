@@ -34,17 +34,17 @@
     "test": "jest test --coverage"
   },
   "devDependencies": {
-    "@babel/core": "^7.2.2",
-    "@babel/preset-env": "^7.3.1",
+    "@babel/core": "^7.4.4",
+    "@babel/preset-env": "^7.4.4",
     "babel-eslint": "^10.0.1",
-    "eslint": "^5.7.0",
+    "eslint": "^5.16.0",
     "eslint-config-airbnb-base": "^13.1.0",
     "eslint-import-resolver-node": "^0.3.2",
-    "eslint-plugin-import": "^2.15.0",
-    "eslint-plugin-jest": "^22.1.3",
+    "eslint-plugin-import": "^2.17.2",
+    "eslint-plugin-jest": "^22.5.1",
     "fast-async": "^7.0.6",
-    "jest": "^24.0.0",
-    "rollup": "^1.1.2",
+    "jest": "^24.8.0",
+    "rollup": "^1.12.2",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-node-resolve": "^5.0.0"
   }

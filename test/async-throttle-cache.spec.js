@@ -1,4 +1,4 @@
-const asyncThrottleCache = require('..');
+import asyncThrottleCache from '../async-throttle-cache';
 
 function wait(time = 5) {
   return new Promise(resolve => setTimeout(resolve, time));

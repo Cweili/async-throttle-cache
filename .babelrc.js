@@ -5,12 +5,29 @@ module.exports = {
         loose: true,
         modules: false,
         exclude: [
-          'transform-typeof-symbol',
-          'transform-async-to-generator',
-          'transform-regenerator'
+          '@babel/plugin-transform-typeof-symbol',
+          '@babel/plugin-transform-async-to-generator',
+          '@babel/plugin-transform-regenerator'
         ]
       }
     ]
   ],
-  plugins: ['module:fast-async']
+  plugins: ['module:fast-async'],
+  env: {
+    test: {
+      presets: [
+        [
+          '@babel/preset-env', {
+            loose: true,
+            exclude: [
+              '@babel/plugin-transform-typeof-symbol',
+              '@babel/plugin-transform-async-to-generator',
+              '@babel/plugin-transform-regenerator'
+            ]
+          }
+        ]
+      ],
+      plugins: ['module:fast-async'],
+    }
+  }
 }

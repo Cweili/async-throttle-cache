@@ -7,7 +7,7 @@
 
 
 [![github][badge-issues]][github]
-[![travis][badge-build]][travis]
+[![build][badge-build]][travis]
 [![coverage][badge-coverage]][coveralls]
 
 
@@ -120,8 +120,8 @@ async () => {
 [badge-issues]: https://img.shields.io/github/issues/Cweili/async-throttle-cache.svg
 [github]: https://github.com/Cweili/async-throttle-cache
 
-[badge-build]: https://travis-ci.org/Cweili/async-throttle-cache.svg?branch=master
+[badge-build]: https://img.shields.io/travis/Cweili/async-throttle-cache/master.svg
 [travis]: https://travis-ci.org/Cweili/async-throttle-cache
 
-[badge-coverage]: https://coveralls.io/repos/github/Cweili/async-throttle-cache/badge.svg?branch=master
+[badge-coverage]: https://img.shields.io/coveralls/github/Cweili/async-throttle-cache/master.svg
 [coveralls]: https://coveralls.io/github/Cweili/async-throttle-cache?branch=master
