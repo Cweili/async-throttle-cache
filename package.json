@@ -44,7 +44,7 @@
     "eslint-plugin-jest": "^23.0.0",
     "fast-async": "^7.0.6",
     "jest": "^24.8.0",
-    "rollup": "^1.19.3",
+    "rollup": "^2.0.0",
     "rollup-plugin-babel": "^4.3.2",
     "rollup-plugin-node-resolve": "^5.0.0"
   }
