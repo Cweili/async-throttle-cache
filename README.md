@@ -120,8 +120,8 @@ async () => {
 [badge-issues]: https://img.shields.io/github/issues/Cweili/async-throttle-cache.svg
 [github]: https://github.com/Cweili/async-throttle-cache
 
-[badge-build]: https://img.shields.io/travis/Cweili/async-throttle-cache/master.svg
-[travis]: https://travis-ci.org/Cweili/async-throttle-cache
+[badge-build]: https://img.shields.io/travis/com/Cweili/async-throttle-cache/master.svg
+[travis]: https://travis-ci.com/Cweili/async-throttle-cache
 
 [badge-coverage]: https://img.shields.io/coveralls/github/Cweili/async-throttle-cache/master.svg
 [coveralls]: https://coveralls.io/github/Cweili/async-throttle-cache?branch=master
