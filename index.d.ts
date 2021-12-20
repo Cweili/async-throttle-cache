@@ -33,12 +33,12 @@ declare function asyncThrottleCache(
   /**
    * Creates a throttled function that only invokes `fn` at most once per every `wait` milliseconds, and returns cached result.
    */
-  wait: Number,
+  wait?: Number,
 
   /**
-   * 
+   * Options
    */
-  options: {
+  options?: {
     key: Options.key
     serialize: Options.serialize
     deserialize: Options.deserialize

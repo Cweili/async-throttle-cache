@@ -27,6 +27,7 @@
   "module": "dist/async-throttle-cache.esm.js",
   "unpkg": "dist/async-throttle-cache.js",
   "jsdelivr": "dist/async-throttle-cache.js",
+  "types": "index.d.ts",
   "sideEffects": false,
   "scripts": {
     "prebuild": "eslint --fix *.js",
