@@ -1,37 +1,24 @@
-declare namespace Options {
-  declare interface key {
-    /**
-     * Specify how to generate cache key. Different cache key will re-invoke fn to get a new result.
-     */
-    (...args: any[]): String
-  }
-
-  declare interface serialize {
-    /**
-     * Method for cached result, it could be asynchronous functions.
-     */
-    (result: any): Promise<any>
-  }
-
-  declare interface deserialize {
-    /**
-     * Method for cached result, it could be asynchronous functions.
-     */
-    (serialized: any): Promise<any>
-  }
-}
-
 /**
  * Creates a throttled function that only invokes `fn` at most once per every `wait` milliseconds, and returns cached result.
  */
-declare function asyncThrottleCache(
+declare function asyncThrottleCache<
   /**
-   * Creates a throttled function that only invokes `fn` at most once per every `wait` milliseconds, and returns cached result.
+   * Asynchronous function type.
    */
-  fn: Function,
+  T extends (...args: any[]) => any,
 
   /**
-   * Creates a throttled function that only invokes `fn` at most once per every `wait` milliseconds, and returns cached result.
+   * Serialized result type.
+   */
+  U,
+>(
+  /**
+   * Asynchronous function to be throttled.
+   */
+  fn: T,
+
+  /**
+   * Throttle wait time, unit is milliseconds.
    */
   wait?: Number,
 
@@ -39,10 +26,21 @@ declare function asyncThrottleCache(
    * Options
    */
   options?: {
-    key: Options.key
-    serialize: Options.serialize
-    deserialize: Options.deserialize
-  }
-): Function
+    /**
+     * Specify how to generate cache key. Different cache key will re-invoke fn to get a new result.
+     */
+    key?: (...args: Parameters<T>) => string
+
+    /**
+     * Serialize method for cached result, it could be a asynchronous function.
+     */
+    serialize?: (result: Awaited<ReturnType<T>>) => Promise<U>
+
+    /**
+     * Deserialize method for cached result, it could be a asynchronous function.
+     */
+    deserialize?: (serialized: U) => ReturnType<T>
+  },
+): T;
 
 export = asyncThrottleCache
