@@ -40,6 +40,11 @@ declare function asyncThrottleCache<
      * Deserialize method for cached result, it could be a asynchronous function.
      */
     deserialize?: (serialized: U) => ReturnType<T>
+
+    /**
+     * Debounce mode, if true, fn will be invoked after wait time since last call.
+     */
+    debounce?: boolean | { leading: boolean }
   },
 ): T;
 

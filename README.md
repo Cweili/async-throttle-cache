@@ -40,6 +40,7 @@ const throttleFn = asyncThrottleCache(fn[, wait = 0[, options = {
   key: (...args) => JSON.stringify(args),
   serialize: result => Promise.resolve(result),
   deserialize: result => Promise.resolve(result),
+  debounce: undefined | true | false | { leading: true },
 }]]);
 ```
 
@@ -48,6 +49,8 @@ Creates a throttled function that only invokes `fn` at most once per every `wait
 You can specify how to generate cache `key`. Different cache `key` will re-invoke `fn` to get a new result.
 
 `serialize` and `deserialize` is for cached result, they could be asynchronous functions.
+
+`debounce` is for debounce mode, if true, fn will be invoked after wait time since last call.
 
 For example, clone result for each time throttled function execution in 1000 milliseconds. It's useful when you tend to modify the result object.
 
@@ -64,7 +67,7 @@ const throttleFn = asyncThrottleCache(fn, 1000, {
 // define a asynchronous function, return after 100ms
 function fn(arg1, arg2) {
   return new Promise((resolve) => {
-    setTimeout(resolve({
+    setTimeout(() => resolve({
       arg1,
       arg2
     }), 100);
@@ -73,38 +76,106 @@ function fn(arg1, arg2) {
 ```
 
 ```js
-const throttleFn200ms = asyncThrottleCache(fn, 200); // longer then function execution
+const throttleFn150ms = asyncThrottleCache(fn, 150); // longer then function execution
 
-async () => {
-  throttleFn200ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 100ms
-  throttleFn200ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 100ms
-  await throttleFn200ms(2, 2); // invoke,     return { arg1: 2, arg2: 2 } at 100ms
-  await throttleFn200ms(2, 2); // from cache, return { arg1: 2, arg2: 2 } at 100ms
-}();
+(async () => {
+  throttleFn150ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 100ms
+  throttleFn150ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 100ms
+  await throttleFn150ms(2, 2); // invoke,     return { arg1: 2, arg2: 2 } at 100ms
+  await throttleFn150ms(2, 2); // from cache, return { arg1: 2, arg2: 2 } at 100ms
+})();
 ```
 
 ```js
 const throttleFn50ms = asyncThrottleCache(fn, 50); // shorter then function execution
 
-async () => {
+(async () => {
   throttleFn50ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 100ms
   throttleFn50ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 100ms
   await throttleFn50ms(2, 2); // invoke,     return { arg1: 2, arg2: 2 } at 100ms
   await throttleFn50ms(2, 2); // invoke,     return { arg1: 2, arg2: 2 } at 200ms
-}();
+})();
 ```
 
 ```js
-const throttleFn200ms = asyncThrottleCache(fn, 200, {
-  key: (arg1, arg2) => JSON.stringify(arg2) // uses arg2 as key
+const throttleFn150ms = asyncThrottleCache(fn, 150, {
+  key: (arg1, arg2) => JSON.stringify(arg2), // uses arg2 as key
 });
 
-async () => {
-  throttleFn200ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 100ms
-  throttleFn200ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 100ms
-  await throttleFn200ms(2, 2); // from cache, return { arg1: 1, arg2: 2 } at 100ms
-  await throttleFn200ms(2, 2); // from cache, return { arg1: 1, arg2: 2 } at 100ms
-}();
+(async () => {
+  throttleFn150ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 100ms
+  throttleFn150ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 100ms
+  await throttleFn150ms(2, 2); // from cache, return { arg1: 1, arg2: 2 } at 100ms
+  await throttleFn150ms(2, 2); // from cache, return { arg1: 1, arg2: 2 } at 100ms
+})();
+```
+
+```js
+const debounceFn250ms = asyncThrottleCache(fn, 250, {
+  debounce: true,
+});
+
+(async () => {
+  debounceFn250ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 350ms
+  debounceFn250ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 350ms
+  debounceFn250ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 750ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn250ms(2, 2);       // from cache, return { arg1: 2, arg2: 2 } at 750ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn250ms(2, 2);       // from cache, return { arg1: 2, arg2: 2 } at 750ms
+})();
+```
+
+```js
+const debounceFn50ms = asyncThrottleCache(fn, 50, {
+  debounce: true,
+});
+
+(async () => {
+  debounceFn50ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 150ms
+  debounceFn50ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 150ms
+  debounceFn50ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 150ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn50ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 350ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn50ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 550ms
+})();
+```
+
+```js
+const debounceFn250ms = asyncThrottleCache(fn, 250, {
+  debounce: {
+    leading: true,
+  },
+});
+
+(async () => {
+  debounceFn250ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 100ms
+  debounceFn250ms(1, 2);       // from cache, return { arg1: 1, arg2: 2 } at 100ms
+  debounceFn250ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 100ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn250ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 750ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn250ms(2, 2);       // from cache, return { arg1: 2, arg2: 2 } at 750ms
+})();
+```
+
+```js
+const debounceFn50ms = asyncThrottleCache(fn, 50, {
+  debounce: {
+    leading: true,
+  },
+});
+
+(async () => {
+  debounceFn50ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 100ms
+  debounceFn50ms(1, 2);       // invoke,     return { arg1: 1, arg2: 2 } at 150ms
+  debounceFn50ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 100ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn50ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 300ms
+  await new Promise((resolve) => setTimeout(resolve, 200));
+  debounceFn50ms(2, 2);       // invoke,     return { arg1: 2, arg2: 2 } at 500ms
+})();
 ```
 
 [badge-version]: https://img.shields.io/npm/v/async-throttle-cache.svg

@@ -1,7 +1,11 @@
 import asyncThrottleCache from '../async-throttle-cache';
 
+jest.useRealTimers();
+
 function wait(time = 5) {
-  return new Promise(resolve => setTimeout(resolve, time));
+  return new Promise((resolve) => {
+    setTimeout(resolve, time * 10);
+  });
 }
 
 function getFn(time, error) {
@@ -42,7 +46,7 @@ it('should throttle function calls', async () => {
     fn,
     jestFn,
   } = getFn();
-  const throttled = asyncThrottleCache(fn, 10);
+  const throttled = asyncThrottleCache(fn, 10 * 10);
   expect(await throttled(1)).toEqual({
     arg: 1,
   });
@@ -61,7 +65,7 @@ it('should throttle function calls identify with arguments', async () => {
     fn,
     jestFn,
   } = getFn(20);
-  const throttled = asyncThrottleCache(fn, 10);
+  const throttled = asyncThrottleCache(fn, 10 * 10);
   expect(await Promise.all([
     throttled(1),
     throttled(1),
@@ -81,16 +85,16 @@ it('should throw an error when function calls failed', async () => {
     fn,
     jestFn,
   } = getFn(1, new Error('a error'));
-  const throttled = asyncThrottleCache(fn, 10);
-  expect(throttled()).rejects.toThrow();
-  expect(throttled()).rejects.toThrow();
+  const throttled = asyncThrottleCache(fn, 10 * 10);
+  await Promise.all([
+    expect(throttled()).rejects.toThrow(),
+    expect(throttled()).rejects.toThrow(),
+  ]);
   await wait(5);
-  expect(throttled()).rejects.toThrow();
-  await wait(5);
-  expect(jestFn).toHaveBeenCalledTimes(1);
-  await wait(20);
-  expect(throttled()).rejects.toThrow();
-  await wait(5);
+  await expect(throttled()).rejects.toThrow();
+  await expect(jestFn).toHaveBeenCalledTimes(1);
+  await wait(10);
+  await expect(throttled()).rejects.toThrow();
   expect(jestFn).toHaveBeenCalledTimes(2);
 });
 
@@ -99,7 +103,7 @@ it('should throttle function calls identify with custom key', async () => {
     fn,
     jestFn,
   } = getFn();
-  const throttled = asyncThrottleCache(fn, 10, {
+  const throttled = asyncThrottleCache(fn, 10 * 10, {
     key: () => 1,
   });
   expect(await throttled(1)).toEqual({
@@ -115,4 +119,94 @@ it('should throttle function calls identify with custom key', async () => {
     arg: 1,
   });
   expect(jestFn).toHaveBeenCalledTimes(1);
+});
+
+it('should debounce function calls when debounce is true', async () => {
+  const {
+    fn,
+    jestFn,
+  } = getFn(2);
+  const debounced = asyncThrottleCache(fn, 3 * 10, {
+    debounce: true,
+  });
+
+  const call1 = debounced(1);
+
+  await wait(1);
+
+  const call2 = debounced(1);
+
+  await wait(1);
+
+  const call3 = debounced(1);
+
+  await wait(10);
+
+  const call4 = debounced(1);
+
+  await Promise.all([
+    expect(call1).resolves.toEqual({
+      arg: 1,
+    }),
+    expect(call2).resolves.toEqual({
+      arg: 1,
+    }),
+    expect(call3).resolves.toEqual({
+      arg: 1,
+    }),
+  ]);
+
+  expect(jestFn).toHaveBeenCalledTimes(1);
+
+  expect(await call4).toEqual({
+    arg: 1,
+  });
+
+  expect(jestFn).toHaveBeenCalledTimes(2);
+});
+
+it('should debounce function calls when debounce is { leading: true }', async () => {
+  const {
+    fn,
+    jestFn,
+  } = getFn(2);
+  const debounced = asyncThrottleCache(fn, 3 * 10, {
+    debounce: {
+      leading: true,
+    },
+  });
+
+  const call1 = debounced(1);
+
+  await wait(1);
+
+  const call2 = debounced(1);
+
+  await wait(1);
+
+  const call3 = debounced(1);
+
+  await wait(10);
+
+  const call4 = debounced(1);
+
+  await Promise.all([
+    expect(call1).resolves.toEqual({
+      arg: 1,
+    }),
+    expect(call2).resolves.toEqual({
+      arg: 1,
+    }),
+    expect(call3).resolves.toEqual({
+      arg: 1,
+    }),
+  ]);
+
+  expect(jestFn).toHaveBeenCalledTimes(2);
+
+  expect(await call4).toEqual({
+    arg: 1,
+  });
+
+  expect(jestFn).toHaveBeenCalledTimes(3);
 });
