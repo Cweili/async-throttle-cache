@@ -1,9 +1,10 @@
 {
   "name": "async-throttle-cache",
   "version": "1.1.4",
-  "description": "Throttle asynchronous functions and return cached result for each function calls. It can be used for rate limit.",
+  "description": "Throttle or debounce asynchronous functions and return cached result for each function calls. It can be used for rate limit.",
   "keywords": [
     "throttle",
+    "debounce",
     "asynchronous",
     "async",
     "await",

@@ -11,7 +11,7 @@
 [![coverage][badge-coverage]][coveralls]
 
 
-Throttle asynchronous functions and return cached result for each function calls. It can be used for rate limit.
+Throttle or debounce asynchronous functions and return cached result for each function calls. It can be used for rate limit.
 
 ## Installation
 
