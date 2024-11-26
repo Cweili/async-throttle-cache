@@ -53,7 +53,7 @@ export default function asyncThrottleCache(fn, wait = 0, {
         }
       }
     }, wait);
-    const padding = () => new Promise((resolve, reject) => {
+    const pending = () => new Promise((resolve, reject) => {
       const cachedP = cache[cacheKey];
       cachedP.s.push(resolve);
       cachedP.j.push(reject);
@@ -75,13 +75,13 @@ export default function asyncThrottleCache(fn, wait = 0, {
           return deserialize(r);
         }
       }
-      return padding();
+      return pending();
     }
     cache[cacheKey] = {
       s: [], // resolve callbacks
       j: [], // reject callbacks
       t: timeout(),
     };
-    return (!debounce || debounceLeading) ? exec() : padding();
+    return (!debounce || debounceLeading) ? exec() : pending();
   };
 }
