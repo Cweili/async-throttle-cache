@@ -7,8 +7,9 @@ export default function asyncThrottleCache(fn, wait = 0, {
   debounce = undefined,
 } = {}) {
   const cache = {};
+  let n = 0;
   const debounceLeading = debounce?.leading;
-  return function (...args) { // eslint-disable-line func-names
+  const w = function (...args) { // eslint-disable-line func-names
     const cacheKey = key(...args);
     const cached = cache[cacheKey];
     const onFinish = (index, err, result) => {
@@ -23,7 +24,7 @@ export default function asyncThrottleCache(fn, wait = 0, {
             .then((r) => {
               cachedF.r = r;
               cachedF.s.map((f, i) => deserialize(r).then(f, cachedF.j[i]));
-            }, onFinish);
+            }, (e) => onFinish(index, e));
         }
         if (!cachedF.t || (debounce && !debounceLeading)) {
           delete cache[cacheKey];
@@ -33,7 +34,8 @@ export default function asyncThrottleCache(fn, wait = 0, {
     };
     const exec = () => {
       const cachedE = cache[cacheKey];
-      const i = cachedE.i = Date.now();
+      n += 1;
+      const i = cachedE.i = n;
       cachedE.f = false;
       return fn.apply(this, args)
         .then((result) => onFinish(i, undefined, result), (err) => {
@@ -45,7 +47,7 @@ export default function asyncThrottleCache(fn, wait = 0, {
       const cachedT = cache[cacheKey];
       if (cachedT) {
         if (debounce && cachedT.s.length) {
-          exec();
+          exec().catch(() => undefined);
         } else if (cachedT.f) {
           delete cache[cacheKey];
         } else {
@@ -84,4 +86,16 @@ export default function asyncThrottleCache(fn, wait = 0, {
     };
     return (!debounce || debounceLeading) ? exec() : pending();
   };
+
+  w.flush = () => {
+    Object.keys(cache).map((k) => {
+      const c = cache[k];
+      clearTimeout(c.t);
+      c.j.map((f) => f(new Error('flushed')));
+      delete cache[k];
+      return k;
+    });
+  };
+
+  return w;
 }

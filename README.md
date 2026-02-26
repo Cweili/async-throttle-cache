@@ -46,6 +46,10 @@ const throttleFn = asyncThrottleCache(fn[, wait = 0[, options = {
 
 Creates a throttled function that only invokes `fn` at most once per every `wait` milliseconds, and returns cached result.
 
+The returned function has a `flush()` method that clears all cache entries and rejects pending calls with `Error('flushed')`.
+
+When `fn` rejects, the error is cached for the same key until the throttle window ends.
+
 You can specify how to generate cache `key`. Different cache `key` will re-invoke `fn` to get a new result.
 
 `serialize` and `deserialize` is for cached result, they could be asynchronous functions.

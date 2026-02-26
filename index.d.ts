@@ -10,7 +10,7 @@ declare function asyncThrottleCache<
   /**
    * Serialized result type.
    */
-  U,
+  U = Awaited<ReturnType<T>>,
 >(
   /**
    * Asynchronous function to be throttled.
@@ -20,7 +20,7 @@ declare function asyncThrottleCache<
   /**
    * Throttle wait time, unit is milliseconds.
    */
-  wait?: Number,
+  wait?: number,
 
   /**
    * Options
@@ -46,6 +46,6 @@ declare function asyncThrottleCache<
      */
     debounce?: boolean | { leading: boolean }
   },
-): T;
+): T & { flush: () => void };
 
-export = asyncThrottleCache
+export default asyncThrottleCache
